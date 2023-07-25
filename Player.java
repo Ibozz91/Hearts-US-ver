@@ -1,6 +1,5 @@
 import java.io.*;
 import java.net.*;
-import java.util.ArrayList;
 public class Player{
     private Socket sock;
     private String username;
@@ -11,7 +10,6 @@ public class Player{
         sock = socketaccepted;
         br = new BufferedReader(new InputStreamReader(sock.getInputStream()));
         ps = new PrintStream(sock.getOutputStream());
-        hand = new ArrayList<Card>();
         points = 0;
     }
     public void assignusername(String usn){
@@ -22,6 +20,10 @@ public class Player{
     }
     public void send(String whattosend){
         ps.println(whattosend);
+        ps.flush();
+    }
+    public void sendcard(Card whatosend){
+        ps.println(whatosend);
         ps.flush();
     }
     public String read() throws IOException{
