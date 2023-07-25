@@ -1,5 +1,8 @@
 //No es confuso hoy en dia
-public class Card {
+//Compare function for hearts only
+import java.io.Serializable;
+import java.util.ArrayList;
+public class Card implements Serializable, Comparable<Card>{
 	private String suit;
 	private int value;
 	public Card(int val, String sut) {
@@ -34,6 +37,28 @@ public class Card {
         }
         if(value==12 && suit.equals("♠")){
             return 13;
+        }
+        return 0;
+    }
+    public int compareTo(Card c){
+        ArrayList<String> suits = new ArrayList<String>();
+        suits.add("♣");
+        suits.add("♦");
+        suits.add("♥");
+        suits.add("♠");
+        if(suits.indexOf(suit)<suits.indexOf(c.gs())){
+            return -1;
+        }
+        else if(suits.indexOf(suit)>suits.indexOf(c.gs())){
+            return 1;
+        }
+        else{
+            if(value<c.gv()){
+                return -1;
+            }
+            else if(value>c.gv()){
+                return 1;
+            }
         }
         return 0;
     }

@@ -4,7 +4,7 @@ import java.util.Random;
 import java.io.*;
 import java.net.*;
 public class HeartsHost{
-    public static void main(String[] Args) throws IOException{
+    public static void main(String[] Args) throws IOException, ClassNotFoundException{
         Random r = new Random();
         ServerSocket ss = new ServerSocket(6492);
         String[] suits = {"♣", "♦", "♥", "♠"};
@@ -23,7 +23,7 @@ public class HeartsHost{
         System.out.println("Everyone has joined.");
         ArrayList<String> usrns = new ArrayList<String>();
         for(Player i: players){
-            String usernamee = i.read();
+            String usernamee = i.readString();
             if(usrns.contains(usernamee)){
                 System.out.println("Duplicate username detected");
                 System.exit(0);
@@ -39,21 +39,28 @@ public class HeartsHost{
         }
         for(Player i: players){
             for(Player ii: players){
-                i.send(ii.usrn());
+                i.sendString(ii.usrn());
             }
         }
         boolean gamecontinue = true;
+        int mod4 = 0;
         while(gamecontinue){
             ArrayList<Card> shuffledeck = new ArrayList<Card>();
             shuffledeck.addAll(deck);
             for(int i = 0; i < 4; i++){
                 for(int ii = 0; ii < 13; ii++){
                     int cardtoremove = r.nextInt(shuffledeck.size());
-                    players[i].sendcard(shuffledeck.get(cardtoremove));
+                    players[i].sendCard(shuffledeck.get(cardtoremove));
                     shuffledeck.remove(cardtoremove);
                 }
             }
             gamecontinue = false;
+            if(mod4==3){
+                mod4=0;
+            }
+            else{
+                mod4++;
+            }
         }
     }
 }

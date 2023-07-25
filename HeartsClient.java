@@ -8,9 +8,7 @@ public class HeartsClient{
         Scanner Scan = new Scanner(System.in);
         System.out.println("Hearts\nPlease enter the IP address of the game you want to join.");
         Socket s = new Socket(Scan.nextLine(), 6492);
-        System.out.println("A");
         ObjectOutputStream oos = new ObjectOutputStream(s.getOutputStream());
-        System.out.println("sf");
         ObjectInputStream ois = new ObjectInputStream(s.getInputStream());
         System.out.println("Select a username for yourself.");
         String yourusername=Scan.nextLine();
@@ -25,12 +23,27 @@ public class HeartsClient{
             System.out.println(i);
         }
         boolean gamecontinue = true;
+        int mod4 = 0;
         while(gamecontinue){
             ArrayList<Card> hand = new ArrayList<Card>();
             for(int i = 0; i < 13; i++){
                 hand.add((Card)ois.readObject());
             }
             gamecontinue = false;
+            if(mod4==3){
+                mod4=0;
+            }
+            else{
+                mod4++;
+            }
+        }
+    }
+    public static void printHand(ArrayList<Card> Hand){
+        for(int i = 0; i < Hand.size(); i++){
+
+        }
+        for(int i = 0; i < Hand.size(); i++){
+            
         }
     }
 }

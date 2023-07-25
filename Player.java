@@ -3,13 +3,13 @@ import java.net.*;
 public class Player{
     private Socket sock;
     private String username;
-    private BufferedReader br;
-    private PrintStream ps;
+    private ObjectInputStream ois;
+    private ObjectOutputStream oos;
     private int points;
     public Player(Socket socketaccepted) throws IOException{
         sock = socketaccepted;
-        br = new BufferedReader(new InputStreamReader(sock.getInputStream()));
-        ps = new PrintStream(sock.getOutputStream());
+        oos = new ObjectOutputStream(sock.getOutputStream());
+        ois = new ObjectInputStream(sock.getInputStream());
         points = 0;
     }
     public void assignusername(String usn){
@@ -18,16 +18,19 @@ public class Player{
     public String usrn(){
         return username;
     }
-    public void send(String whattosend){
-        ps.println(whattosend);
-        ps.flush();
+    public void sendString(String whattosend) throws IOException{
+        oos.writeObject(whattosend);
+        oos.flush();
     }
-    public void sendcard(Card whatosend){
-        ps.println(whatosend);
-        ps.flush();
+    public void sendCard(Card whatosend) throws IOException{
+        oos.writeObject(whatosend);
+        oos.flush();
     }
-    public String read() throws IOException{
-        return br.readLine();
+    public String readString() throws IOException, ClassNotFoundException{
+        return (String)ois.readObject();
+    }
+    public Card readCard() throws IOException, ClassNotFoundException{
+        return (Card)ois.readObject();
     }
     public void addpoints(int amount){
         points+=amount;
