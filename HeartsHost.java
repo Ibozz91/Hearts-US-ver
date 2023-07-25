@@ -45,6 +45,11 @@ public class HeartsHost{
         boolean gamecontinue = true;
         int mod4 = 0;
         while(gamecontinue){
+            for(int i = 0; i < 4; i++){
+                for(int ii = 0; ii < 4; ii++){
+                    players[i].sendInt(players[ii].points());
+                }
+            }
             ArrayList<Card> shuffledeck = new ArrayList<Card>();
             shuffledeck.addAll(deck);
             for(int i = 0; i < 4; i++){
@@ -61,6 +66,9 @@ public class HeartsHost{
             else{
                 mod4++;
             }
+        }
+        while(true){
+
         }
     }
 }

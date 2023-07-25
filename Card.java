@@ -17,7 +17,10 @@ public class Card implements Serializable, Comparable<Card>{
 	}
 	public String toString() {
         String cardname = Integer.toString(value);
-        if(value == 11){
+        if(value == 10){
+            cardname = "➉";
+        }
+        else if(value == 11){
             cardname = "J";
         }
         else if(value == 12){

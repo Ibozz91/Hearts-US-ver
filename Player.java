@@ -26,6 +26,10 @@ public class Player{
         oos.writeObject(whatosend);
         oos.flush();
     }
+    public void sendInt(int whaosend) throws IOException{
+        oos.writeObject(whaosend);
+        oos.flush();
+    }
     public String readString() throws IOException, ClassNotFoundException{
         return (String)ois.readObject();
     }
