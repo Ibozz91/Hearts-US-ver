@@ -64,6 +64,15 @@ public class HeartsHost{
                     players[passto(i, mod4)].sendCardArrayList(players[i].readCardArrayList());
                 }
             }
+            int player2c = -1;
+            for(int i = 0; i < 4; i++){
+                if(players[i].readInt()==1){
+                    player2c=i;
+                }
+            }
+            for(int i = 0; i < 4; i++){
+                players[i].sendInt(player2c);
+            }
             gamecontinue = false;
             mod4=mod4next(mod4);
         }

@@ -44,6 +44,9 @@ public class Player{
     public ArrayList<Card> readCardArrayList() throws IOException, ClassNotFoundException{
         return (ArrayList<Card>)ois.readObject();
     }
+    public int readInt() throws IOException, ClassNotFoundException {
+        return (int)ois.readObject();
+    }
     public void addpoints(int amount){
         points+=amount;
     }

@@ -68,8 +68,16 @@ public class HeartsClient{
                 Collections.sort(hand);
                 System.out.println("Your new hand:");
                 printHand(hand);
-                System.out.println();
+                System.out.println("Press enter to continue.");
+                Scan.nextLine();
             }
+            int has2clubs=0;
+            if(hand.get(0).gs().equals("♣") && hand.get(0).gv()==2){
+                has2clubs=1;
+            }
+            oos.writeObject(has2clubs);
+            oos.flush();
+            int playertoplay
             mod4=mod4next(mod4);
         }
     }
