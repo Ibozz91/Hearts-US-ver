@@ -73,6 +73,9 @@ public class HeartsHost{
             for(int i = 0; i < 4; i++){
                 players[i].sendInt(player2c);
             }
+            for(int i = 0; i < 13; i++){
+
+            }
             gamecontinue = false;
             mod4=mod4next(mod4);
         }
@@ -109,19 +112,9 @@ public class HeartsHost{
         }
     }
     public static int mod4next(int initial){
-        if(initial==3){
-            return 0;
-        }
-        else{
-            return initial+1;
-        }
+        return (initial+1)%4;
     }
     public static int mod4previous(int initial){
-        if(initial==0){
-            return 3;
-        }
-        else{
-            return initial-1;
-        }
+        return (initial-1)%4;
     }
 }

@@ -77,25 +77,34 @@ public class HeartsClient{
             }
             oos.writeObject(has2clubs);
             oos.flush();
-            int playertoplay
+            int playertoplay = (Integer)ois.readObject();
+            boolean firstround = true;
+            boolean pointsplayed = false;
+            for(int i = 0; i < 13; i++){
+                for(int ii = playertoplay; ii <= mod4previous(playertoplay); ii = mod4next(ii)){
+                    ArrayList<Card> Cardsplayed = new ArrayList<Card>();
+                    if(ii==playernumber){
+                        printHand(hand);
+                        if(playernumber==playertoplay){
+                            if(firstround){
+                                System.out.println("You must play the 2 of clubs. Select the 2 of clubs");
+                                
+                            }
+                        }
+                    }
+                    else{
+                        Cardsplayed.add
+                    }
+                }
+            }
             mod4=mod4next(mod4);
         }
     }
     public static int mod4next(int initial){
-        if(initial==3){
-            return 0;
-        }
-        else{
-            return initial+1;
-        }
+        return (initial+1)%4;
     }
     public static int mod4previous(int initial){
-        if(initial==0){
-            return 3;
-        }
-        else{
-            return initial-1;
-        }
+        return (initial-1)%4;
     }
     public static void printHand(ArrayList<Card> Hand){
         for(int i = 0; i < Hand.size(); i++){
