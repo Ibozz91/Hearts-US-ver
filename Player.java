@@ -1,5 +1,6 @@
 import java.io.*;
 import java.net.*;
+import java.util.ArrayList;
 public class Player{
     private Socket sock;
     private String username;
@@ -30,11 +31,18 @@ public class Player{
         oos.writeObject(whaosend);
         oos.flush();
     }
+    public void sendCardArrayList(ArrayList<Card> whend) throws IOException{
+        oos.writeObject(whend);
+        oos.flush();
+    }
     public String readString() throws IOException, ClassNotFoundException{
         return (String)ois.readObject();
     }
     public Card readCard() throws IOException, ClassNotFoundException{
         return (Card)ois.readObject();
+    }
+    public ArrayList<Card> readCardArrayList() throws IOException, ClassNotFoundException{
+        return (ArrayList<Card>)ois.readObject();
     }
     public void addpoints(int amount){
         points+=amount;

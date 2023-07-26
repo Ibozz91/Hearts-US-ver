@@ -59,13 +59,13 @@ public class HeartsHost{
                     shuffledeck.remove(cardtoremove);
                 }
             }
+            if(mod4!=3){
+                for(int i = 0; i < 4; i++){
+                    players[passto(i, mod4)].sendCardArrayList(players[i].readCardArrayList());
+                }
+            }
             gamecontinue = false;
-            if(mod4==3){
-                mod4=0;
-            }
-            else{
-                mod4++;
-            }
+            mod4=mod4next(mod4);
         }
         while(true){
 
@@ -97,6 +97,22 @@ public class HeartsHost{
         }
         else{
             return -1;
+        }
+    }
+    public static int mod4next(int initial){
+        if(initial==3){
+            return 0;
+        }
+        else{
+            return initial+1;
+        }
+    }
+    public static int mod4previous(int initial){
+        if(initial==0){
+            return 3;
+        }
+        else{
+            return initial-1;
         }
     }
 }
