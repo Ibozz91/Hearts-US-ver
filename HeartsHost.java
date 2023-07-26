@@ -71,4 +71,32 @@ public class HeartsHost{
 
         }
     }
+    public static int passto(int player, int cycle){
+        if(cycle==0){
+            if(player<3){
+                return player+1;
+            }
+            else{
+                return 0;
+            }
+        }
+        else if(cycle==1){
+            if(player>0){
+                return player-1;
+            }
+            else{
+                return 3;
+            }
+        }
+        else if(cycle==2){
+            int j = 4-player;
+            if(j%2==0){
+                j-=2;
+            }
+            return j;
+        }
+        else{
+            return -1;
+        }
+    }
 }
