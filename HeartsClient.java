@@ -80,20 +80,63 @@ public class HeartsClient{
             int playertoplay = (Integer)ois.readObject();
             boolean firstround = true;
             boolean pointsplayed = false;
+            ArrayList<ArrayList<Card>> penaltycards = new ArrayList<ArrayList<Card>>(4);
             for(int i = 0; i < 13; i++){
+                System.out.println("Penalty cards:");
+                for(int iii = 0; iii < 4; iii++){
+                    System.out.print(playernames[iii]+": ");
+                    for(int iv = 0; iv < penaltycards.get(iii).size(); iv++){
+                        System.out.print(penaltycards.get(iii).get(iv));
+                    }
+                    System.out.println();
+                }
                 for(int ii = playertoplay; ii <= mod4previous(playertoplay); ii = mod4next(ii)){
                     ArrayList<Card> Cardsplayed = new ArrayList<Card>();
                     if(ii==playernumber){
+                        Card cardtoplay = null;
                         printHand(hand);
                         if(playernumber==playertoplay){
                             if(firstround){
-                                System.out.println("You must play the 2 of clubs. Select the 2 of clubs");
-                                
+                                boolean b = true;
+                                while(b){
+                                    System.out.println("You must play the 2 of clubs. Select the 2 of clubs");
+                                    int selection = Scan.nextInt();
+                                    Scan.nextLine();
+                                    if(selection > 0 && selection < 13 && hand.get(selection).gs().equals("♣") && hand.get(selection).gv()==2){
+                                        cardtoplay=hand.get(selection);
+                                        b=false;
+                                    }
+                                    else{
+                                        System.out.println("That was not the 2 of clubs.");
+                                    }
+                                }
+                            }
+                            else{
+                                if(pointsplayed){
+                                    
+                                }
+                                else{
+                                    System.out.println("You may play any card you want.");
+                                    boolean b = true;
+                                    while(b){
+                                        int selection = Scan.nextInt();
+                                        Scan.nextLine();
+                                        if(selection > 0 && selection < 13){
+                                            cardtoplay=hand.get(selection);
+                                            b = false;
+                                        }
+                                        else{
+                                            System.out.println("Please select something inbounds.");
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
                     else{
-                        Cardsplayed.add
+                        Card cardputdown = (Card)ois.readObject();
+                        Cardsplayed.add(cardputdown);
+                        System.out.println(playernames[ii]+" plays "+cardputdown.toString());
                     }
                 }
             }
@@ -143,5 +186,14 @@ public class HeartsClient{
         else{
             return -1;
         }
+    }
+    public static boolean hasallPointed(ArrayList<Card> cards){
+        boolean b = true;
+        for(int i = 0; i < cards.size(); i++){
+            if(cards.get(i).gv()==0){
+                b = false;
+            }
+        }
+        return b;
     }
 }
