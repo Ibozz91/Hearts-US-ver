@@ -112,8 +112,54 @@ public class HeartsClient{
                                 }
                             }
                             else{
-                                if(pointsplayed){
-                                    
+                                if(pointsplayed || hasAllPointed(hand)){
+                                    System.out.println("You may play any card you want.");
+                                    boolean b = true;
+                                    while(b){
+                                        int selection = Scan.nextInt();
+                                        Scan.nextLine();
+                                        if(selection > 0 && selection < 13){
+                                            cardtoplay=hand.get(selection);
+                                            b = false;
+                                        }
+                                        else{
+                                            System.out.println("Please select something inbounds.");
+                                        }
+                                    }
+                                }
+                                else{
+                                    System.out.println("Select a card that does not give any penalty.");
+                                    boolean b = true;
+                                    while(b){
+                                        int selection = Scan.nextInt();
+                                        Scan.nextLine();
+                                        if(selection > 0 && selection < 13 && hand.get(selection).penalty()==0){
+                                            cardtoplay=hand.get(selection);
+                                            b = false;
+                                        }
+                                        else{
+                                            System.out.println("Try again.");
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        else{
+                            if(!firstround || hasAllPointed(hand)){
+                                if(hasSuit(hand, Cardsplayed.get(0).gs())){
+                                    System.out.println("Select a card with the "+Cardsplayed.get(0).gs()+" suit.");
+                                    boolean b = true;
+                                    while(b){
+                                        int selection = Scan.nextInt();
+                                        Scan.nextLine();
+                                        if(selection > 0 && selection < 13 && hand.get(selection).gs().equals(Cardsplayed.get(0).gs())){
+                                            cardtoplay=hand.get(selection);
+                                            b = false;
+                                        }
+                                        else{
+                                            System.out.println("Wrong suit or out-of-bounds.");
+                                        }
+                                    }
                                 }
                                 else{
                                     System.out.println("You may play any card you want.");
@@ -130,6 +176,12 @@ public class HeartsClient{
                                         }
                                     }
                                 }
+                                else{
+
+                                }
+                            }
+                            else{
+                                
                             }
                         }
                     }
@@ -137,8 +189,12 @@ public class HeartsClient{
                         Card cardputdown = (Card)ois.readObject();
                         Cardsplayed.add(cardputdown);
                         System.out.println(playernames[ii]+" plays "+cardputdown.toString());
+                        if(cardputdown.penalty()>0){
+                            pointsplayed = true;
+                        }
                     }
                 }
+                firstround = false;
             }
             mod4=mod4next(mod4);
         }
@@ -187,11 +243,20 @@ public class HeartsClient{
             return -1;
         }
     }
-    public static boolean hasallPointed(ArrayList<Card> cards){
+    public static boolean hasAllPointed(ArrayList<Card> cards){
         boolean b = true;
         for(int i = 0; i < cards.size(); i++){
-            if(cards.get(i).gv()==0){
+            if(cards.get(i).penalty()==0){
                 b = false;
+            }
+        }
+        return b;
+    }
+    public static boolean hasSuit(ArrayList<Card> cards, String suit){
+        boolean b = false;
+        for(int i = 0; i < cards.size(); i++){
+            if(cards.get(i).gs().equals(suit)){
+                b = true;
             }
         }
         return b;
