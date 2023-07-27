@@ -32,8 +32,18 @@ public class HeartsClient{
         int mod4 = 0;
         while(gamecontinue){
             System.out.println("Current scores:");
+            ArrayList<Integer> scores = new ArrayList<Integer>();
             for(int i = 0; i < 4; i++){
-                System.out.println(playernames[i]+": "+(Integer)ois.readObject());
+                scores.add((Integer)ois.readObject());
+                System.out.println(playernames[i]+": "+scores.get(i));
+                if(scores.get(i)>=100){
+                    gamecontinue = false;
+                }
+            }
+            if(!gamecontinue){
+                int thewon=scores.indexOf(Collections.min(scores));
+                System.out.println(playernames[thewon]+"won!");
+                continue;
             }
             ArrayList<Card> hand = new ArrayList<Card>();
             for(int i = 0; i < 13; i++){
@@ -90,8 +100,8 @@ public class HeartsClient{
                     }
                     System.out.println();
                 }
+                ArrayList<Card> Cardsplayed = new ArrayList<Card>();
                 for(int ii = playertoplay; ii <= mod4previous(playertoplay); ii = mod4next(ii)){
-                    ArrayList<Card> Cardsplayed = new ArrayList<Card>();
                     if(ii==playernumber){
                         Card cardtoplay = null;
                         printHand(hand);
@@ -176,13 +186,46 @@ public class HeartsClient{
                                         }
                                     }
                                 }
-                                else{
-
-                                }
                             }
                             else{
-                                
+                                if(hasSuit(hand, Cardsplayed.get(0).gs())){
+                                    System.out.println("Select a card with the "+Cardsplayed.get(0).gs()+" suit and has no penalty.");
+                                    boolean b = true;
+                                    while(b){
+                                        int selection = Scan.nextInt();
+                                        Scan.nextLine();
+                                        if(selection > 0 && selection < 13 && hand.get(selection).gs().equals(Cardsplayed.get(0).gs()) && hand.get(selection).penalty()==0){
+                                            cardtoplay=hand.get(selection);
+                                            b = false;
+                                        }
+                                        else{
+                                            System.out.println("Wrong suit, has penalty or out-of-bounds.");
+                                        }
+                                    }
+                                }
+                                else{
+                                    System.out.println("You may play any card you want so long as there is no penalty.");
+                                    boolean b = true;
+                                    while(b){
+                                        int selection = Scan.nextInt();
+                                        Scan.nextLine();
+                                        if(selection > 0 && selection < 13 && hand.get(selection).penalty()==0){
+                                            cardtoplay=hand.get(selection);
+                                            b = false;
+                                        }
+                                        else{
+                                            System.out.println("Nope. Retry.");
+                                        }
+                                    }
+                                }
                             }
+                        }
+                        Cardsplayed.add(cardtoplay);
+                            hand.remove(cardtoplay);
+                        oos.writeObject(cardtoplay);
+                        oos.flush();
+                        if(cardtoplay.penalty()>0){
+                            pointsplayed = true;
                         }
                     }
                     else{
@@ -195,9 +238,17 @@ public class HeartsClient{
                     }
                 }
                 firstround = false;
+                int winner = winnerof4(Cardsplayed);
+                System.out.println(playernames[winner]+" gets the cards for this.");
+                for(int v = 0; v < 4; v++){
+                    if(Cardsplayed.get(v).penalty()>0){
+                        penaltycards.get(winner).add(Cardsplayed.get(v));
+                    }
+                }
             }
             mod4=mod4next(mod4);
         }
+        s.close();
     }
     public static int mod4next(int initial){
         return (initial+1)%4;
@@ -260,5 +311,14 @@ public class HeartsClient{
             }
         }
         return b;
+    }
+    public static int winnerof4(ArrayList<Card> cards){
+        ArrayList<Card> cards2 = new ArrayList<Card>();
+        for(int i = 0; i < 4; i++){
+            if(cards.get(i).gs().equals(cards.get(0).gs())){
+                cards2.add(cards.get(i));
+            }
+        }
+        return cards.indexOf(Collections.max(cards2));
     }
 }
