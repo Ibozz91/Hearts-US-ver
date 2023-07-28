@@ -56,19 +56,19 @@ public class HeartsClient{
             }
             else{
                 int amountofcardspassed = 0;
-                int[] cardstopass = new int[3];
+                ArrayList<Integer> cardstopass = new ArrayList<Integer>();
                 while(amountofcardspassed<3){
                     System.out.println("Select a card to pass to "+playernames[passto(playernumber,mod4)]);
                     int cardtopass = Scan.nextInt();
                     Scan.nextLine();
-                    if(!Arrays.asList(cardstopass).contains(cardtopass) && cardtopass>0 && cardtopass<14){
-                        cardstopass[amountofcardspassed]=cardtopass;
+                    if(!cardstopass.contains(cardtopass) && cardtopass>0 && cardtopass<14){
+                        cardstopass.add(cardtopass);
                         amountofcardspassed++;
                     }
                 }
                 ArrayList<Card> theactualcardstopass = new ArrayList<Card>();
                 for(int k = 0; k < 3; k++){
-                    theactualcardstopass.add(hand.get(cardstopass[k]-1));
+                    theactualcardstopass.add(hand.get(cardstopass.get(k)-1));
                 }
                 oos.writeObject(theactualcardstopass);
                 oos.flush();
@@ -91,17 +91,21 @@ public class HeartsClient{
             boolean firstround = true;
             boolean pointsplayed = false;
             ArrayList<ArrayList<Card>> penaltycards = new ArrayList<ArrayList<Card>>(4);
+            for(int i = 0; i < 4; i++){
+                penaltycards.add(new ArrayList<Card>());
+            }
             for(int i = 0; i < 13; i++){
                 System.out.println("Penalty cards:");
                 for(int iii = 0; iii < 4; iii++){
                     System.out.print(playernames[iii]+": ");
                     for(int iv = 0; iv < penaltycards.get(iii).size(); iv++){
-                        System.out.print(penaltycards.get(iii).get(iv));
+                        System.out.print(penaltycards.get(iii).get(iv)+" ");
                     }
                     System.out.println();
                 }
                 ArrayList<Card> Cardsplayed = new ArrayList<Card>();
-                for(int ii = playertoplay; ii <= mod4previous(playertoplay); ii = mod4next(ii)){
+                int increment = 0;
+                for(int ii = playertoplay; increment < 4; ii = mod4next(ii)){
                     if(ii==playernumber){
                         Card cardtoplay = null;
                         printHand(hand);
@@ -112,8 +116,8 @@ public class HeartsClient{
                                     System.out.println("You must play the 2 of clubs. Select the 2 of clubs");
                                     int selection = Scan.nextInt();
                                     Scan.nextLine();
-                                    if(selection > 0 && selection < 13 && hand.get(selection).gs().equals("♣") && hand.get(selection).gv()==2){
-                                        cardtoplay=hand.get(selection);
+                                    if(selection > 0 && selection < 14 && hand.get(selection-1).gs().equals("♣") && hand.get(selection-1).gv()==2){
+                                        cardtoplay=hand.get(selection-1);
                                         b=false;
                                     }
                                     else{
@@ -128,8 +132,8 @@ public class HeartsClient{
                                     while(b){
                                         int selection = Scan.nextInt();
                                         Scan.nextLine();
-                                        if(selection > 0 && selection < 13){
-                                            cardtoplay=hand.get(selection);
+                                        if(selection > 0 && selection < 14){
+                                            cardtoplay=hand.get(selection-1);
                                             b = false;
                                         }
                                         else{
@@ -143,8 +147,8 @@ public class HeartsClient{
                                     while(b){
                                         int selection = Scan.nextInt();
                                         Scan.nextLine();
-                                        if(selection > 0 && selection < 13 && hand.get(selection).penalty()==0){
-                                            cardtoplay=hand.get(selection);
+                                        if(selection > 0 && selection < 14 && hand.get(selection-1).penalty()==0){
+                                            cardtoplay=hand.get(selection-1);
                                             b = false;
                                         }
                                         else{
@@ -162,8 +166,8 @@ public class HeartsClient{
                                     while(b){
                                         int selection = Scan.nextInt();
                                         Scan.nextLine();
-                                        if(selection > 0 && selection < 13 && hand.get(selection).gs().equals(Cardsplayed.get(0).gs())){
-                                            cardtoplay=hand.get(selection);
+                                        if(selection > 0 && selection < 14 && hand.get(selection-1).gs().equals(Cardsplayed.get(0).gs())){
+                                            cardtoplay=hand.get(selection-1);
                                             b = false;
                                         }
                                         else{
@@ -177,8 +181,8 @@ public class HeartsClient{
                                     while(b){
                                         int selection = Scan.nextInt();
                                         Scan.nextLine();
-                                        if(selection > 0 && selection < 13){
-                                            cardtoplay=hand.get(selection);
+                                        if(selection > 0 && selection < 14){
+                                            cardtoplay=hand.get(selection-1);
                                             b = false;
                                         }
                                         else{
@@ -194,8 +198,8 @@ public class HeartsClient{
                                     while(b){
                                         int selection = Scan.nextInt();
                                         Scan.nextLine();
-                                        if(selection > 0 && selection < 13 && hand.get(selection).gs().equals(Cardsplayed.get(0).gs()) && hand.get(selection).penalty()==0){
-                                            cardtoplay=hand.get(selection);
+                                        if(selection > 0 && selection < 14 && hand.get(selection-1).gs().equals(Cardsplayed.get(0).gs()) && hand.get(selection-1).penalty()==0){
+                                            cardtoplay=hand.get(selection-1);
                                             b = false;
                                         }
                                         else{
@@ -209,8 +213,8 @@ public class HeartsClient{
                                     while(b){
                                         int selection = Scan.nextInt();
                                         Scan.nextLine();
-                                        if(selection > 0 && selection < 13 && hand.get(selection).penalty()==0){
-                                            cardtoplay=hand.get(selection);
+                                        if(selection > 0 && selection < 14 && hand.get(selection-1).penalty()==0){
+                                            cardtoplay=hand.get(selection-1);
                                             b = false;
                                         }
                                         else{
@@ -236,13 +240,14 @@ public class HeartsClient{
                             pointsplayed = true;
                         }
                     }
+                    increment++;
                 }
                 firstround = false;
-                int winner = winnerof4(Cardsplayed);
-                System.out.println(playernames[winner]+" gets the cards for this.");
+                playertoplay = (playertoplay+winnerof4(Cardsplayed))%4;
+                System.out.println(playernames[playertoplay]+" gets the cards for this.");
                 for(int v = 0; v < 4; v++){
                     if(Cardsplayed.get(v).penalty()>0){
-                        penaltycards.get(winner).add(Cardsplayed.get(v));
+                        penaltycards.get(playertoplay).add(Cardsplayed.get(v));
                     }
                 }
             }

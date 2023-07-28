@@ -1,8 +1,8 @@
-//h
 import java.util.ArrayList;
 import java.util.Random;
 import java.io.*;
 import java.net.*;
+import java.util.Collections;
 public class HeartsHost{
     public static void main(String[] Args) throws IOException, ClassNotFoundException{
         Random r = new Random();
@@ -50,6 +50,14 @@ public class HeartsHost{
                     players[i].sendInt(players[ii].points());
                 }
             }
+            for(int i = 0; i < 4; i++){
+                if(players[i].points()>=100){
+                    gamecontinue = false;
+                }
+            }
+            if(!gamecontinue){
+                continue;
+            }
             ArrayList<Card> shuffledeck = new ArrayList<Card>();
             shuffledeck.addAll(deck);
             for(int i = 0; i < 4; i++){
@@ -73,14 +81,54 @@ public class HeartsHost{
             for(int i = 0; i < 4; i++){
                 players[i].sendInt(player2c);
             }
-            for(int i = 0; i < 13; i++){
-
+            int playertoplay = player2c;
+            ArrayList<ArrayList<Card>> penaltycards = new ArrayList<ArrayList<Card>>(4);
+            for(int ii = 0; ii < 4; ii++){
+                penaltycards.add(new ArrayList<Card>());
             }
-            gamecontinue = false;
+            for(int i = 0; i < 13; i++){
+                ArrayList<Card> Cardsplayed = new ArrayList<Card>();
+                int increment = 0;
+                for(int ii = playertoplay; increment < 4; ii = mod4next(ii)){
+                    Card cardplayed = players[ii].readCard();
+                    for(int iii = 0; iii < 4; iii++){
+                        if(iii!=ii){
+                            players[iii].sendCard(cardplayed);
+                        }
+                    }
+                    Cardsplayed.add(cardplayed);
+                    increment++;
+                }
+                playertoplay = (playertoplay+winnerof4(Cardsplayed))%4;
+                for(int v = 0; v < 4; v++){
+                    if(Cardsplayed.get(v).penalty()>0){
+                        penaltycards.get(playertoplay).add(Cardsplayed.get(v));
+                    }
+                }
+            }
+            ArrayList<Integer> pointstoadd = new ArrayList<Integer>();
+            for(int i = 0; i < 4; i++){
+                pointstoadd.add(0);
+            }
+            for(int i = 0; i < 4; i++){
+                for(int j = 0; j < penaltycards.get(i).size(); j++){
+                    pointstoadd.set(i, pointstoadd.get(i)+penaltycards.get(i).get(j).penalty());
+                }
+            }
+            if(pointstoadd.contains(26)){
+                for(int i = 0; i < 4; i++){
+                    if(pointstoadd.get(i)==26){
+                        pointstoadd.set(i, 0);
+                    }
+                    else{
+                        pointstoadd.set(i, 26);
+                    }
+                }
+            }
+            for(int i = 0; i < 4; i++){
+                players[i].addpoints(pointstoadd.get(i));
+            }
             mod4=mod4next(mod4);
-        }
-        while(true){
-
         }
     }
     public static int passto(int player, int cycle){
@@ -116,5 +164,14 @@ public class HeartsHost{
     }
     public static int mod4previous(int initial){
         return (initial-1)%4;
+    }
+    public static int winnerof4(ArrayList<Card> cards){
+        ArrayList<Card> cards2 = new ArrayList<Card>();
+        for(int i = 0; i < 4; i++){
+            if(cards.get(i).gs().equals(cards.get(0).gs())){
+                cards2.add(cards.get(i));
+            }
+        }
+        return cards.indexOf(Collections.max(cards2));
     }
 }
