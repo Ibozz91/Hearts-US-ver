@@ -42,7 +42,7 @@ public class HeartsClient{
             }
             if(!gamecontinue){
                 int thewon=scores.indexOf(Collections.min(scores));
-                System.out.println(playernames[thewon]+"won!");
+                System.out.println(playernames[thewon]+" won!");
                 continue;
             }
             ArrayList<Card> hand = new ArrayList<Card>();
