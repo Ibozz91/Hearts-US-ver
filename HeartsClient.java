@@ -95,14 +95,6 @@ public class HeartsClient{
                 penaltycards.add(new ArrayList<Card>());
             }
             for(int i = 0; i < 13; i++){
-                System.out.println("Penalty cards:");
-                for(int iii = 0; iii < 4; iii++){
-                    System.out.print(playernames[iii]+": ");
-                    for(int iv = 0; iv < penaltycards.get(iii).size(); iv++){
-                        System.out.print(penaltycards.get(iii).get(iv)+" ");
-                    }
-                    System.out.println();
-                }
                 ArrayList<Card> Cardsplayed = new ArrayList<Card>();
                 int increment = 0;
                 for(int ii = playertoplay; increment < 4; ii = mod4next(ii)){
@@ -249,6 +241,14 @@ public class HeartsClient{
                     if(Cardsplayed.get(v).penalty()>0){
                         penaltycards.get(playertoplay).add(Cardsplayed.get(v));
                     }
+                }
+                System.out.println("Penalty cards:");
+                for(int iii = 0; iii < 4; iii++){
+                    System.out.print(playernames[iii]+": ");
+                    for(int iv = 0; iv < penaltycards.get(iii).size(); iv++){
+                        System.out.print(penaltycards.get(iii).get(iv)+" ");
+                    }
+                    System.out.println();
                 }
             }
             mod4=mod4next(mod4);
