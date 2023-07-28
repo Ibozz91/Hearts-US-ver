@@ -1,8 +1,8 @@
+//EVIL CODE >:)
 import java.io.*;
 import java.net.*;
 import java.util.Scanner;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 public class HeartsClient{
     public static void main(String Args[]) throws IOException, UnknownHostException, UnsupportedOperationException, ClassNotFoundException{
