@@ -108,7 +108,7 @@ public class HeartsClient{
                                     System.out.println("You must play the 2 of clubs. Select the 2 of clubs");
                                     int selection = Scan.nextInt();
                                     Scan.nextLine();
-                                    if(selection > 0 && selection < 14 && hand.get(selection-1).gs().equals("♣") && hand.get(selection-1).gv()==2){
+                                    if(selection > 0 && selection < hand.size()+1 && hand.get(selection-1).gs().equals("♣") && hand.get(selection-1).gv()==2){
                                         cardtoplay=hand.get(selection-1);
                                         b=false;
                                     }
@@ -124,7 +124,7 @@ public class HeartsClient{
                                     while(b){
                                         int selection = Scan.nextInt();
                                         Scan.nextLine();
-                                        if(selection > 0 && selection < 14){
+                                        if(selection > 0 && selection < hand.size()+1){
                                             cardtoplay=hand.get(selection-1);
                                             b = false;
                                         }
@@ -139,7 +139,7 @@ public class HeartsClient{
                                     while(b){
                                         int selection = Scan.nextInt();
                                         Scan.nextLine();
-                                        if(selection > 0 && selection < 14 && hand.get(selection-1).penalty()==0){
+                                        if(selection > 0 && selection < hand.size()+1 && hand.get(selection-1).penalty()==0){
                                             cardtoplay=hand.get(selection-1);
                                             b = false;
                                         }
@@ -158,7 +158,7 @@ public class HeartsClient{
                                     while(b){
                                         int selection = Scan.nextInt();
                                         Scan.nextLine();
-                                        if(selection > 0 && selection < 14 && hand.get(selection-1).gs().equals(Cardsplayed.get(0).gs())){
+                                        if(selection > 0 && selection < hand.size()+1 && hand.get(selection-1).gs().equals(Cardsplayed.get(0).gs())){
                                             cardtoplay=hand.get(selection-1);
                                             b = false;
                                         }
@@ -173,7 +173,7 @@ public class HeartsClient{
                                     while(b){
                                         int selection = Scan.nextInt();
                                         Scan.nextLine();
-                                        if(selection > 0 && selection < 14){
+                                        if(selection > 0 && selection < hand.size()+1){
                                             cardtoplay=hand.get(selection-1);
                                             b = false;
                                         }
@@ -190,7 +190,7 @@ public class HeartsClient{
                                     while(b){
                                         int selection = Scan.nextInt();
                                         Scan.nextLine();
-                                        if(selection > 0 && selection < 14 && hand.get(selection-1).gs().equals(Cardsplayed.get(0).gs()) && hand.get(selection-1).penalty()==0){
+                                        if(selection > 0 && selection < hand.size()+1 && hand.get(selection-1).gs().equals(Cardsplayed.get(0).gs()) && hand.get(selection-1).penalty()==0){
                                             cardtoplay=hand.get(selection-1);
                                             b = false;
                                         }
@@ -205,7 +205,7 @@ public class HeartsClient{
                                     while(b){
                                         int selection = Scan.nextInt();
                                         Scan.nextLine();
-                                        if(selection > 0 && selection < 14 && hand.get(selection-1).penalty()==0){
+                                        if(selection > 0 && selection < hand.size()+1 && hand.get(selection-1).penalty()==0){
                                             cardtoplay=hand.get(selection-1);
                                             b = false;
                                         }
